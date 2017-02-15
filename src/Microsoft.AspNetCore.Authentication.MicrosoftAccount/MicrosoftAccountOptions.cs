@@ -30,9 +30,7 @@ namespace Microsoft.AspNetCore.Builder
             ClaimResolvers.Add(ClaimTypes.Name, "displayName");
             ClaimResolvers.Add(ClaimTypes.GivenName, "givenName");
             ClaimResolvers.Add(ClaimTypes.Surname, "surname");
-            // Last one wins, if present
-            ClaimResolvers.Add(ClaimTypes.Email, "userPrincipalName");
-            ClaimResolvers.Add(ClaimTypes.Email, "mail");
+            ClaimResolvers.AddCustom(ClaimTypes.Email, user => user.Value<string>("mail") ?? user.Value<string>("userPrincipalName"));
         }
     }
 }
