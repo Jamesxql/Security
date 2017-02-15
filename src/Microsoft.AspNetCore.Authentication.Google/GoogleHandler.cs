@@ -43,9 +43,9 @@ namespace Microsoft.AspNetCore.Authentication.Google
             var ticket = new AuthenticationTicket(principal, properties, Options.AuthenticationScheme);
             var context = new OAuthCreatingTicketContext(ticket, Context, Options, Backchannel, tokens, payload);
 
-            foreach (var map in Options.ClaimResolvers)
+            foreach (var resolver in Options.ClaimResolvers)
             {
-                map.Apply(payload, identity, Options.ClaimsIssuer);
+                resolver.Apply(payload, identity, Options.ClaimsIssuer);
             }
 
             await Options.Events.CreatingTicket(context);

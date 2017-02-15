@@ -2,6 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Http;
 
@@ -30,6 +32,21 @@ namespace Microsoft.AspNetCore.Builder
             Fields.Add("email");
             Fields.Add("first_name");
             Fields.Add("last_name");
+
+            ClaimResolvers.Add(ClaimTypes.NameIdentifier, "id");
+            ClaimResolvers.AddNested("urn:facebook:age_range_min", "age_range", "min");
+            ClaimResolvers.AddNested("urn:facebook:age_range_max", "age_range", "max");
+            ClaimResolvers.Add(ClaimTypes.DateOfBirth, "birthday");
+            ClaimResolvers.Add(ClaimTypes.Email, "email");
+            ClaimResolvers.Add(ClaimTypes.Name, "name");
+            ClaimResolvers.Add(ClaimTypes.GivenName, "first_name");
+            ClaimResolvers.Add("urn:facebook:middle_name", "middle_name");
+            ClaimResolvers.Add(ClaimTypes.Surname, "last_name");
+            ClaimResolvers.Add(ClaimTypes.Gender, "gender");
+            ClaimResolvers.Add("urn:facebook:link", "link");
+            ClaimResolvers.AddNested("urn:facebook:location", "location", "name");
+            ClaimResolvers.Add(ClaimTypes.Locality, "locale");
+            ClaimResolvers.Add("urn:facebook:timezone", "timezone");
         }
 
         // Facebook uses a non-standard term for this field.
