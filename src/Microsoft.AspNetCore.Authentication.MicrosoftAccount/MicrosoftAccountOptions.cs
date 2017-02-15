@@ -26,11 +26,11 @@ namespace Microsoft.AspNetCore.Builder
             UserInformationEndpoint = MicrosoftAccountDefaults.UserInformationEndpoint;
             Scope.Add("https://graph.microsoft.com/user.read");
 
-            ClaimResolvers.Add(ClaimTypes.NameIdentifier, "id");
-            ClaimResolvers.Add(ClaimTypes.Name, "displayName");
-            ClaimResolvers.Add(ClaimTypes.GivenName, "givenName");
-            ClaimResolvers.Add(ClaimTypes.Surname, "surname");
-            ClaimResolvers.AddCustom(ClaimTypes.Email, user => user.Value<string>("mail") ?? user.Value<string>("userPrincipalName"));
+            ClaimMaps.AddJsonKeyMap(ClaimTypes.NameIdentifier, "id");
+            ClaimMaps.AddJsonKeyMap(ClaimTypes.Name, "displayName");
+            ClaimMaps.AddJsonKeyMap(ClaimTypes.GivenName, "givenName");
+            ClaimMaps.AddJsonKeyMap(ClaimTypes.Surname, "surname");
+            ClaimMaps.AddCustomJsonMap(ClaimTypes.Email, user => user.Value<string>("mail") ?? user.Value<string>("userPrincipalName"));
         }
     }
 }

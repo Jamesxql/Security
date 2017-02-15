@@ -6,9 +6,9 @@ using System.Security.Claims;
 
 namespace Microsoft.AspNetCore.Authentication.OAuth
 {
-    public class NestedJsonClaimResolver : JsonClaimResolver
+    public class NestedJsonClaimMapper : JsonClaimMapper
     {
-        public NestedJsonClaimResolver(string claimName, string claimType, string jsonKey, string subKey)
+        public NestedJsonClaimMapper(string claimName, string claimType, string jsonKey, string subKey)
             : base(claimName, claimType, jsonKey)
         {
             SubKey = subKey;
@@ -16,7 +16,7 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
 
         public string SubKey { get; }
 
-        public override void Apply(JObject data, ClaimsIdentity identity, string issuer)
+        public override void Map(JObject data, ClaimsIdentity identity, string issuer)
         {
             var value = GetValue(data, JsonKey, SubKey);
             if (!string.IsNullOrEmpty(value))
@@ -28,8 +28,7 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
         // Get the given subProperty from a property.
         private static string GetValue(JObject user, string propertyName, string subProperty)
         {
-            JToken value;
-            if (user.TryGetValue(propertyName, out value))
+            if (user.TryGetValue(propertyName, out var value))
             {
                 var subObject = JObject.Parse(value.ToString());
                 if (subObject != null && subObject.TryGetValue(subProperty, out value))

@@ -7,17 +7,17 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AspNetCore.Authentication.OAuth
 {
-    public class CustomJsonClaimResolver : ClaimResolver<JObject>
+    public class CustomJsonClaimMapper : ClaimMapper<JObject>
     {
-        public CustomJsonClaimResolver(string claimName, string claimType, Func<JObject, string> resolver)
+        public CustomJsonClaimMapper(string claimName, string claimType, Func<JObject, string> resolver)
             : base(claimName, claimType)
         {
             Resolver = resolver;
         }
 
-        public Func<JObject, string> Resolver { get; set; }
+        public Func<JObject, string> Resolver { get; }
 
-        public override void Apply(JObject data, ClaimsIdentity identity, string issuer)
+        public override void Map(JObject data, ClaimsIdentity identity, string issuer)
         {
             var value = Resolver(data);
             if (!string.IsNullOrEmpty(value))

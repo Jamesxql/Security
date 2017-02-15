@@ -5,9 +5,9 @@ using System.Security.Claims;
 
 namespace Microsoft.AspNetCore.Authentication
 {
-    public abstract class ClaimResolver<T>
+    public abstract class ClaimMapper<T>
     {
-        public ClaimResolver(string claimName, string claimType)
+        public ClaimMapper(string claimName, string claimType)
         {
             ClaimName = claimName;
             ClaimType = claimType;
@@ -17,6 +17,6 @@ namespace Microsoft.AspNetCore.Authentication
 
         public string ClaimType { get; }
 
-        public abstract void Apply(T data, ClaimsIdentity identity, string issuer);
+        public abstract void Map(T data, ClaimsIdentity identity, string issuer);
     }
 }

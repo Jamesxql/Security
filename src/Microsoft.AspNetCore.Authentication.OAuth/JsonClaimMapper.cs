@@ -6,9 +6,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AspNetCore.Authentication.OAuth
 {
-    public class JsonClaimResolver : ClaimResolver<JObject>
+    public class JsonClaimMapper : ClaimMapper<JObject>
     {
-        public JsonClaimResolver(string claimName, string claimType, string jsonKey)
+        public JsonClaimMapper(string claimName, string claimType, string jsonKey)
             : base(claimName, claimType)
         {
             JsonKey = jsonKey;
@@ -16,7 +16,7 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
 
         public string JsonKey { get; }
 
-        public override void Apply(JObject data, ClaimsIdentity identity, string issuer)
+        public override void Map(JObject data, ClaimsIdentity identity, string issuer)
         {
             var value = data.Value<string>(JsonKey);
             if (!string.IsNullOrEmpty(value))

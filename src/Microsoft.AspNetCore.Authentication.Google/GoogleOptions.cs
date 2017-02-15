@@ -28,12 +28,12 @@ namespace Microsoft.AspNetCore.Builder
             Scope.Add("profile");
             Scope.Add("email");
 
-            ClaimResolvers.Add(ClaimTypes.NameIdentifier, "id");
-            ClaimResolvers.Add(ClaimTypes.Name, "displayName");
-            ClaimResolvers.AddNested(ClaimTypes.GivenName, "name", "givenName");
-            ClaimResolvers.AddNested(ClaimTypes.Surname, "name", "familyName");
-            ClaimResolvers.Add("urn:google:profile", "url");
-            ClaimResolvers.AddCustom(ClaimTypes.Email, GoogleHelper.GetEmail);
+            ClaimMaps.AddJsonKeyMap(ClaimTypes.NameIdentifier, "id");
+            ClaimMaps.AddJsonKeyMap(ClaimTypes.Name, "displayName");
+            ClaimMaps.AddNestedJsonKeyMap(ClaimTypes.GivenName, "name", "givenName");
+            ClaimMaps.AddNestedJsonKeyMap(ClaimTypes.Surname, "name", "familyName");
+            ClaimMaps.AddJsonKeyMap("urn:google:profile", "url");
+            ClaimMaps.AddCustomJsonMap(ClaimTypes.Email, GoogleHelper.GetEmail);
         }
 
         /// <summary>

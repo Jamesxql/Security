@@ -127,8 +127,8 @@ namespace SocialSample
                     }
                 }
             };
-            googleOptions.ClaimResolvers.AddNested("urn:google:image", "image", "url");
-            googleOptions.ClaimResolvers.Remove(ClaimTypes.GivenName);
+            googleOptions.ClaimMaps.AddNestedJsonKeyMap("urn:google:image", "image", "url");
+            googleOptions.ClaimMaps.Remove(ClaimTypes.GivenName);
             app.UseGoogleAuthentication(googleOptions);
 
             // You must first create an app with Twitter and add its key and Secret to your user-secrets.
@@ -234,11 +234,11 @@ namespace SocialSample
                     }
                 }
             };
-            githubOptions.ClaimResolvers.Add(ClaimTypes.NameIdentifier, "id");
-            githubOptions.ClaimResolvers.Add(ClaimTypes.Name, "login");
-            githubOptions.ClaimResolvers.Add("urn:github:name", "name");
-            githubOptions.ClaimResolvers.Add(ClaimTypes.Email, "email", ClaimValueTypes.Email);
-            githubOptions.ClaimResolvers.Add("urn:github:url", "url");
+            githubOptions.ClaimMaps.AddJsonKeyMap(ClaimTypes.NameIdentifier, "id");
+            githubOptions.ClaimMaps.AddJsonKeyMap(ClaimTypes.Name, "login");
+            githubOptions.ClaimMaps.AddJsonKeyMap("urn:github:name", "name");
+            githubOptions.ClaimMaps.AddJsonKeyMap(ClaimTypes.Email, "email", ClaimValueTypes.Email);
+            githubOptions.ClaimMaps.AddJsonKeyMap("urn:github:url", "url");
             app.UseOAuthAuthentication(githubOptions);
 
             // Choose an authentication type
