@@ -45,7 +45,7 @@ namespace Microsoft.AspNetCore.Authentication.Facebook
 
             var ticket = new AuthenticationTicket(new ClaimsPrincipal(identity), properties, Options.AuthenticationScheme);
             var context = new OAuthCreatingTicketContext(ticket, Context, Options, Backchannel, tokens, payload);
-            context.ResolveClaims();
+            context.MapClaims();
 
             await Options.Events.CreatingTicket(context);
 

@@ -6,9 +6,9 @@ using System.Security.Claims;
 
 namespace Microsoft.AspNetCore.Authentication.OAuth
 {
-    public class NestedJsonClaimMapper : JsonClaimMapper
+    public class JsonSubKeyClaimMapper : JsonKeyClaimMapper
     {
-        public NestedJsonClaimMapper(string claimName, string claimType, string jsonKey, string subKey)
+        public JsonSubKeyClaimMapper(string claimName, string claimType, string jsonKey, string subKey)
             : base(claimName, claimType, jsonKey)
         {
             SubKey = subKey;

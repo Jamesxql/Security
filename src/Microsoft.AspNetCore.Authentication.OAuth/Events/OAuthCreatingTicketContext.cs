@@ -145,12 +145,12 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
         /// </summary>
         public ClaimsIdentity Identity => Ticket?.Principal.Identity as ClaimsIdentity;
 
-        public void ResolveClaims()
+        public void MapClaims()
         {
-            ResolveClaims(User);
+            MapClaims(User);
         }
 
-        public void ResolveClaims(JObject userData)
+        public void MapClaims(JObject userData)
         {
             if (userData == null)
             {

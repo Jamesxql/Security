@@ -42,7 +42,7 @@ namespace Microsoft.AspNetCore.Authentication.Google
             var principal = new ClaimsPrincipal(identity);
             var ticket = new AuthenticationTicket(principal, properties, Options.AuthenticationScheme);
             var context = new OAuthCreatingTicketContext(ticket, Context, Options, Backchannel, tokens, payload);
-            context.ResolveClaims();
+            context.MapClaims();
 
             await Options.Events.CreatingTicket(context);
 

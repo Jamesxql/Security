@@ -127,7 +127,7 @@ namespace SocialSample
                     }
                 }
             };
-            googleOptions.ClaimMaps.AddNestedJsonKeyMap("urn:google:image", "image", "url");
+            googleOptions.ClaimMaps.MapJsonSubKey("urn:google:image", "image", "url");
             googleOptions.ClaimMaps.Remove(ClaimTypes.GivenName);
             app.UseGoogleAuthentication(googleOptions);
 
@@ -230,15 +230,15 @@ namespace SocialSample
 
                         var user = JObject.Parse(await response.Content.ReadAsStringAsync());
 
-                        context.ResolveClaims(user);
+                        context.MapClaims(user);
                     }
                 }
             };
-            githubOptions.ClaimMaps.AddJsonKeyMap(ClaimTypes.NameIdentifier, "id");
-            githubOptions.ClaimMaps.AddJsonKeyMap(ClaimTypes.Name, "login");
-            githubOptions.ClaimMaps.AddJsonKeyMap("urn:github:name", "name");
-            githubOptions.ClaimMaps.AddJsonKeyMap(ClaimTypes.Email, "email", ClaimValueTypes.Email);
-            githubOptions.ClaimMaps.AddJsonKeyMap("urn:github:url", "url");
+            githubOptions.ClaimMaps.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+            githubOptions.ClaimMaps.MapJsonKey(ClaimTypes.Name, "login");
+            githubOptions.ClaimMaps.MapJsonKey("urn:github:name", "name");
+            githubOptions.ClaimMaps.MapJsonKey(ClaimTypes.Email, "email", ClaimValueTypes.Email);
+            githubOptions.ClaimMaps.MapJsonKey("urn:github:url", "url");
             app.UseOAuthAuthentication(githubOptions);
 
             // Choose an authentication type

@@ -10,34 +10,34 @@ namespace Microsoft.AspNetCore.Authentication
 {
     public static class JsonClaimMapperCollectionExtensions
     {
-        public static void AddJsonKeyMap(this ClaimMapperCollection<JObject> collection, string claimName, string jsonKey)
+        public static void MapJsonKey(this ClaimMapperCollection<JObject> collection, string claimName, string jsonKey)
         {
-            collection.AddJsonKeyMap(claimName, jsonKey, ClaimValueTypes.String);
+            collection.MapJsonKey(claimName, jsonKey, ClaimValueTypes.String);
         }
 
-        public static void AddJsonKeyMap(this ClaimMapperCollection<JObject> collection, string claimName, string jsonKey, string claimType)
+        public static void MapJsonKey(this ClaimMapperCollection<JObject> collection, string claimName, string jsonKey, string claimType)
         {
-            collection.Add(new JsonClaimMapper(claimName, claimType, jsonKey));
+            collection.Add(new JsonKeyClaimMapper(claimName, claimType, jsonKey));
         }
 
-        public static void AddNestedJsonKeyMap(this ClaimMapperCollection<JObject> collection, string claimName, string jsonKey, string subKey)
+        public static void MapJsonSubKey(this ClaimMapperCollection<JObject> collection, string claimName, string jsonKey, string subKey)
         {
-            collection.AddNestedJsonKeyMap(claimName, jsonKey, subKey, ClaimValueTypes.String);
+            collection.MapJsonSubKey(claimName, jsonKey, subKey, ClaimValueTypes.String);
         }
 
-        public static void AddNestedJsonKeyMap(this ClaimMapperCollection<JObject> collection, string claimName, string jsonKey, string subKey, string claimType)
+        public static void MapJsonSubKey(this ClaimMapperCollection<JObject> collection, string claimName, string jsonKey, string subKey, string claimType)
         {
-            collection.Add(new NestedJsonClaimMapper(claimName, claimType, jsonKey, subKey));
+            collection.Add(new JsonSubKeyClaimMapper(claimName, claimType, jsonKey, subKey));
         }
 
-        public static void AddCustomJsonMap(this ClaimMapperCollection<JObject> collection, string claimName, Func<JObject, string> resolver)
+        public static void MapCustomJson(this ClaimMapperCollection<JObject> collection, string claimName, Func<JObject, string> resolver)
         {
-            collection.AddCustomJsonMap(claimName, ClaimValueTypes.String, resolver);
+            collection.MapCustomJson(claimName, ClaimValueTypes.String, resolver);
         }
 
-        public static void AddCustomJsonMap(this ClaimMapperCollection<JObject> collection, string claimName, string claimType, Func<JObject, string> resolver)
+        public static void MapCustomJson(this ClaimMapperCollection<JObject> collection, string claimName, string claimType, Func<JObject, string> resolver)
         {
-            collection.Add(new CustomJsonClaimMapper(claimName, claimType, resolver));
+            collection.Add(new JsonCustomClaimMapper(claimName, claimType, resolver));
         }
     }
 }

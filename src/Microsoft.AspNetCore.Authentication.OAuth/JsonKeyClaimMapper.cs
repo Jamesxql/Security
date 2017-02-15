@@ -1,25 +1,24 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
 using System.Security.Claims;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AspNetCore.Authentication.OAuth
 {
-    public class CustomJsonClaimMapper : ClaimMapper<JObject>
+    public class JsonKeyClaimMapper : ClaimMapper<JObject>
     {
-        public CustomJsonClaimMapper(string claimName, string claimType, Func<JObject, string> resolver)
+        public JsonKeyClaimMapper(string claimName, string claimType, string jsonKey)
             : base(claimName, claimType)
         {
-            Resolver = resolver;
+            JsonKey = jsonKey;
         }
 
-        public Func<JObject, string> Resolver { get; }
+        public string JsonKey { get; }
 
         public override void Map(JObject data, ClaimsIdentity identity, string issuer)
         {
-            var value = Resolver(data);
+            var value = data.Value<string>(JsonKey);
             if (!string.IsNullOrEmpty(value))
             {
                 identity.AddClaim(new Claim(ClaimName, value, ClaimType, issuer));
