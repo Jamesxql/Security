@@ -1,6 +1,8 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Http;
 
@@ -25,6 +27,13 @@ namespace Microsoft.AspNetCore.Builder
             Scope.Add("openid");
             Scope.Add("profile");
             Scope.Add("email");
+
+            ClaimResolvers.Add(ClaimTypes.NameIdentifier, "id");
+            ClaimResolvers.Add(ClaimTypes.Name, "displayName");
+            ClaimResolvers.AddNested(ClaimTypes.GivenName, "name", "givenName");
+            ClaimResolvers.AddNested(ClaimTypes.Surname, "name", "familyName");
+            ClaimResolvers.Add("urn:google:profile", "url");
+            ClaimResolvers.AddCustom(ClaimTypes.Email, GoogleHelper.GetEmail);
         }
 
         /// <summary>

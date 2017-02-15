@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Http.Authentication;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -54,6 +55,8 @@ namespace Microsoft.AspNetCore.Builder
             get { return (IOAuthEvents)base.Events; }
             set { base.Events = value; }
         }
+
+        public ClaimResolverCollection<JObject> ClaimResolvers { get; } = new ClaimResolverCollection<JObject>();
 
         /// <summary>
         /// Gets the list of permissions to request.

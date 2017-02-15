@@ -112,7 +112,7 @@ namespace SocialSample
 
             // You must first create an app with GitHub and add its ID and Secret to your user-secrets.
             // https://console.developers.google.com/project
-            app.UseGoogleAuthentication(new GoogleOptions
+            var googleOptions = new GoogleOptions
             {
                 ClientId = Configuration["google:clientid"],
                 ClientSecret = Configuration["google:clientsecret"],
@@ -126,7 +126,10 @@ namespace SocialSample
                         return Task.FromResult(0);
                     }
                 }
-            });
+            };
+            googleOptions.ClaimResolvers.AddNested("urn:google:image", "image", "url");
+            googleOptions.ClaimResolvers.Remove(ClaimTypes.GivenName);
+            app.UseGoogleAuthentication(googleOptions);
 
             // You must first create an app with Twitter and add its key and Secret to your user-secrets.
             // https://apps.twitter.com/
@@ -357,7 +360,7 @@ namespace SocialSample
                 }
 
                 await context.Response.WriteAsync("Tokens:<br>");
-                
+
                 await context.Response.WriteAsync("Access Token: " + await context.Authentication.GetTokenAsync("access_token") + "<br>");
                 await context.Response.WriteAsync("Refresh Token: " + await context.Authentication.GetTokenAsync("refresh_token") + "<br>");
                 await context.Response.WriteAsync("Token Type: " + await context.Authentication.GetTokenAsync("token_type") + "<br>");

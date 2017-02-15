@@ -43,40 +43,9 @@ namespace Microsoft.AspNetCore.Authentication.Google
             var ticket = new AuthenticationTicket(principal, properties, Options.AuthenticationScheme);
             var context = new OAuthCreatingTicketContext(ticket, Context, Options, Backchannel, tokens, payload);
 
-            var identifier = GoogleHelper.GetId(payload);
-            if (!string.IsNullOrEmpty(identifier))
+            foreach (var map in Options.ClaimResolvers)
             {
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, identifier, ClaimValueTypes.String, Options.ClaimsIssuer));
-            }
-
-            var givenName = GoogleHelper.GetGivenName(payload);
-            if (!string.IsNullOrEmpty(givenName))
-            {
-                identity.AddClaim(new Claim(ClaimTypes.GivenName, givenName, ClaimValueTypes.String, Options.ClaimsIssuer));
-            }
-
-            var familyName = GoogleHelper.GetFamilyName(payload);
-            if (!string.IsNullOrEmpty(familyName))
-            {
-                identity.AddClaim(new Claim(ClaimTypes.Surname, familyName, ClaimValueTypes.String, Options.ClaimsIssuer));
-            }
-
-            var name = GoogleHelper.GetName(payload);
-            if (!string.IsNullOrEmpty(name))
-            {
-                identity.AddClaim(new Claim(ClaimTypes.Name, name, ClaimValueTypes.String, Options.ClaimsIssuer));
-            }
-
-            var email = GoogleHelper.GetEmail(payload);
-            if (!string.IsNullOrEmpty(email))
-            {
-                identity.AddClaim(new Claim(ClaimTypes.Email, email, ClaimValueTypes.String, Options.ClaimsIssuer));
-            }
-
-            var profile = GoogleHelper.GetProfile(payload);
-            if (!string.IsNullOrEmpty(profile))
-            {
-                identity.AddClaim(new Claim("urn:google:profile", profile, ClaimValueTypes.String, Options.ClaimsIssuer));
+                map.Apply(payload, identity, Options.ClaimsIssuer);
             }
 
             await Options.Events.CreatingTicket(context);
