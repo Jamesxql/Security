@@ -1,8 +1,10 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
+using Microsoft.AspNetCore.Http;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -23,6 +25,14 @@ namespace Microsoft.AspNetCore.Builder
             TokenEndpoint = MicrosoftAccountDefaults.TokenEndpoint;
             UserInformationEndpoint = MicrosoftAccountDefaults.UserInformationEndpoint;
             Scope.Add("https://graph.microsoft.com/user.read");
+
+            ClaimResolvers.Add(ClaimTypes.NameIdentifier, "id");
+            ClaimResolvers.Add(ClaimTypes.Name, "displayName");
+            ClaimResolvers.Add(ClaimTypes.GivenName, "givenName");
+            ClaimResolvers.Add(ClaimTypes.Surname, "surname");
+            // Last one wins, if present
+            ClaimResolvers.Add(ClaimTypes.Email, "userPrincipalName");
+            ClaimResolvers.Add(ClaimTypes.Email, "mail");
         }
     }
 }

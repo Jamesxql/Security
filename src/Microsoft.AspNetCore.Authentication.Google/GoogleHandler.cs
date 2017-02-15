@@ -39,14 +39,14 @@ namespace Microsoft.AspNetCore.Authentication.Google
 
             var payload = JObject.Parse(await response.Content.ReadAsStringAsync());
 
-            var principal = new ClaimsPrincipal(identity);
-            var ticket = new AuthenticationTicket(principal, properties, Options.AuthenticationScheme);
-            var context = new OAuthCreatingTicketContext(ticket, Context, Options, Backchannel, tokens, payload);
-
             foreach (var resolver in Options.ClaimResolvers)
             {
                 resolver.Apply(payload, identity, Options.ClaimsIssuer);
             }
+
+            var principal = new ClaimsPrincipal(identity);
+            var ticket = new AuthenticationTicket(principal, properties, Options.AuthenticationScheme);
+            var context = new OAuthCreatingTicketContext(ticket, Context, Options, Backchannel, tokens, payload);
 
             await Options.Events.CreatingTicket(context);
 
