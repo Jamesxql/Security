@@ -203,7 +203,7 @@ namespace SocialSample
 
             // You must first create an app with GitHub and add its ID and Secret to your user-secrets.
             // https://github.com/settings/applications/
-            app.UseOAuthAuthentication(new OAuthOptions
+            var githubOptions = new OAuthOptions
             {
                 AuthenticationScheme = "GitHub",
                 DisplayName = "Github",
@@ -230,48 +230,16 @@ namespace SocialSample
 
                         var user = JObject.Parse(await response.Content.ReadAsStringAsync());
 
-                        var identifier = user.Value<string>("id");
-                        if (!string.IsNullOrEmpty(identifier))
-                        {
-                            context.Identity.AddClaim(new Claim(
-                                ClaimTypes.NameIdentifier, identifier,
-                                ClaimValueTypes.String, context.Options.ClaimsIssuer));
-                        }
-
-                        var userName = user.Value<string>("login");
-                        if (!string.IsNullOrEmpty(userName))
-                        {
-                            context.Identity.AddClaim(new Claim(
-                                ClaimsIdentity.DefaultNameClaimType, userName,
-                                ClaimValueTypes.String, context.Options.ClaimsIssuer));
-                        }
-
-                        var name = user.Value<string>("name");
-                        if (!string.IsNullOrEmpty(name))
-                        {
-                            context.Identity.AddClaim(new Claim(
-                                "urn:github:name", name,
-                                ClaimValueTypes.String, context.Options.ClaimsIssuer));
-                        }
-
-                        var email = user.Value<string>("email");
-                        if (!string.IsNullOrEmpty(email))
-                        {
-                            context.Identity.AddClaim(new Claim(
-                                ClaimTypes.Email, email,
-                                ClaimValueTypes.Email, context.Options.ClaimsIssuer));
-                        }
-
-                        var link = user.Value<string>("url");
-                        if (!string.IsNullOrEmpty(link))
-                        {
-                            context.Identity.AddClaim(new Claim(
-                                "urn:github:url", link,
-                                ClaimValueTypes.String, context.Options.ClaimsIssuer));
-                        }
+                        context.ResolveClaims(user);
                     }
                 }
-            });
+            };
+            githubOptions.ClaimResolvers.Add(ClaimTypes.NameIdentifier, "id");
+            githubOptions.ClaimResolvers.Add(ClaimTypes.Name, "login");
+            githubOptions.ClaimResolvers.Add("urn:github:name", "name");
+            githubOptions.ClaimResolvers.Add(ClaimTypes.Email, "email", ClaimValueTypes.Email);
+            githubOptions.ClaimResolvers.Add("urn:github:url", "url");
+            app.UseOAuthAuthentication(githubOptions);
 
             // Choose an authentication type
             app.Map("/login", signoutApp =>

@@ -33,13 +33,9 @@ namespace Microsoft.AspNetCore.Authentication.MicrosoftAccount
 
             var payload = JObject.Parse(await response.Content.ReadAsStringAsync());
 
-            foreach (var resolver in Options.ClaimResolvers)
-            {
-                resolver.Apply(payload, identity, Options.ClaimsIssuer);
-            }
-
             var ticket = new AuthenticationTicket(new ClaimsPrincipal(identity), properties, Options.AuthenticationScheme);
             var context = new OAuthCreatingTicketContext(ticket, Context, Options, Backchannel, tokens, payload);
+            context.ResolveClaims();
 
             await Options.Events.CreatingTicket(context);
             return context.Ticket;
