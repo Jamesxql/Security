@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.ComponentModel;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Http;
@@ -24,6 +24,8 @@ namespace Microsoft.AspNetCore.Builder
             CallbackPath = new PathString("/signin-twitter");
             BackchannelTimeout = TimeSpan.FromSeconds(60);
             Events = new TwitterEvents();
+
+            ClaimMaps.MapJsonKey(ClaimTypes.Email, "email", ClaimValueTypes.Email);
         }
 
         /// <summary>
@@ -45,6 +47,8 @@ namespace Microsoft.AspNetCore.Builder
         /// See https://dev.twitter.com/rest/reference/get/account/verify_credentials
         /// </summary>
         public bool RetrieveUserDetails { get; set; }
+
+        public JsonClaimMapperCollection ClaimMaps { get; } = new JsonClaimMapperCollection();
 
         /// <summary>
         /// Gets or sets the type used to secure data handled by the middleware.
