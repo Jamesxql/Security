@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AspNetCore.Authentication.OAuth
 {
-    public class JsonKeyClaimMapper : ClaimMapper<JObject>
+    public class JsonKeyClaimMapper : JsonClaimMapper
     {
         public JsonKeyClaimMapper(string claimName, string claimType, string jsonKey)
             : base(claimName, claimType)

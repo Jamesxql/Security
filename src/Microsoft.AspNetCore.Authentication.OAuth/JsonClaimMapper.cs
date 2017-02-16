@@ -2,12 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Security.Claims;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AspNetCore.Authentication
 {
-    public abstract class ClaimMapper<T>
+    public abstract class JsonClaimMapper
     {
-        public ClaimMapper(string claimName, string claimType)
+        public JsonClaimMapper(string claimName, string claimType)
         {
             ClaimName = claimName;
             ClaimType = claimType;
@@ -17,6 +18,6 @@ namespace Microsoft.AspNetCore.Authentication
 
         public string ClaimType { get; }
 
-        public abstract void Map(T data, ClaimsIdentity identity, string issuer);
+        public abstract void Map(JObject data, ClaimsIdentity identity, string issuer);
     }
 }

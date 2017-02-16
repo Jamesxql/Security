@@ -56,7 +56,7 @@ namespace Microsoft.AspNetCore.Builder
             set { base.Events = value; }
         }
 
-        public ClaimMapperCollection<JObject> ClaimMaps { get; } = new ClaimMapperCollection<JObject>();
+        public JsonClaimMapperCollection ClaimMaps { get; } = new JsonClaimMapperCollection();
 
         /// <summary>
         /// Gets the list of permissions to request.

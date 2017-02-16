@@ -8,9 +8,9 @@ using System.Linq;
 
 namespace Microsoft.AspNetCore.Authentication
 {
-    public class ClaimMapperCollection<T> : IEnumerable<ClaimMapper<T>>
+    public class JsonClaimMapperCollection : IEnumerable<JsonClaimMapper>
     {
-        private IList<ClaimMapper<T>> Mappers { get; } = new List<ClaimMapper<T>>();
+        private IList<JsonClaimMapper> Mappers { get; } = new List<JsonClaimMapper>();
 
         public void Clear() => Mappers.Clear();
 
@@ -20,12 +20,12 @@ namespace Microsoft.AspNetCore.Authentication
             itemsToRemove.ForEach(map => Mappers.Remove(map));
         }
 
-        public void Add(ClaimMapper<T> mapper)
+        public void Add(JsonClaimMapper mapper)
         {
             Mappers.Add(mapper);
         }
 
-        public IEnumerator<ClaimMapper<T>> GetEnumerator()
+        public IEnumerator<JsonClaimMapper> GetEnumerator()
         {
             return Mappers.GetEnumerator();
         }
