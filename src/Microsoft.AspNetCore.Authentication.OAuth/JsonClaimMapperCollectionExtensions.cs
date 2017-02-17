@@ -39,5 +39,10 @@ namespace Microsoft.AspNetCore.Authentication
         {
             collection.Add(new JsonCustomClaimMapper(claimType, valueType, resolver));
         }
+
+        public static void DeleteClaim(this JsonClaimMapperCollection collection, string claimType)
+        {
+            collection.Add(new DeleteClaimMapper(claimType));
+        }
     }
 }

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
@@ -55,6 +56,24 @@ namespace Microsoft.AspNetCore.Builder
             Events = new OpenIdConnectEvents();
             Scope.Add("openid");
             Scope.Add("profile");
+
+            ClaimMaps.DeleteClaim("nonce");
+            ClaimMaps.DeleteClaim("aud");
+            ClaimMaps.DeleteClaim("iss");
+            ClaimMaps.DeleteClaim("iat");
+            ClaimMaps.DeleteClaim("nbf");
+            ClaimMaps.DeleteClaim("exp");
+            ClaimMaps.DeleteClaim("c_hash");
+            ClaimMaps.DeleteClaim("ipaddr");
+            ClaimMaps.DeleteClaim("platf");
+            ClaimMaps.DeleteClaim("ver");
+
+            ClaimMaps.MapUniqueJsonKey(ClaimTypes.NameIdentifier, "sub");
+            ClaimMaps.MapUniqueJsonKey(ClaimTypes.Name, "name");
+            ClaimMaps.MapUniqueJsonKey(ClaimTypes.GivenName, "given_name");
+            ClaimMaps.MapUniqueJsonKey(ClaimTypes.Surname, "family_name");
+            ClaimMaps.MapUniqueJsonKey(ClaimTypes.Uri, "profile");
+            ClaimMaps.MapUniqueJsonKey(ClaimTypes.Email, "email");
         }
 
         /// <summary>
@@ -90,6 +109,8 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         public bool GetClaimsFromUserInfoEndpoint { get; set; }
 
+        public JsonClaimMapperCollection ClaimMaps { get; } = new JsonClaimMapperCollection();
+
         /// <summary>
         /// Gets or sets if HTTPS is required for the metadata address or authority.
         /// The default is true. This should be disabled only in development environments.
@@ -112,7 +133,7 @@ namespace Microsoft.AspNetCore.Builder
 
         /// <summary>
         /// Gets or sets the <see cref="OpenIdConnectProtocolValidator"/> that is used to ensure that the 'id_token' received
-        /// is valid per: http://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation 
+        /// is valid per: http://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation
         /// </summary>
         /// <exception cref="ArgumentNullException">if 'value' is null.</exception>
         public OpenIdConnectProtocolValidator ProtocolValidator { get; set; } = new OpenIdConnectProtocolValidator()
