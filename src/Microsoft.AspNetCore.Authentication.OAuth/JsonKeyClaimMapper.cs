@@ -8,8 +8,8 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
 {
     public class JsonKeyClaimMapper : JsonClaimMapper
     {
-        public JsonKeyClaimMapper(string claimName, string claimType, string jsonKey)
-            : base(claimName, claimType)
+        public JsonKeyClaimMapper(string claimType, string valueType, string jsonKey)
+            : base(claimType, valueType)
         {
             JsonKey = jsonKey;
         }
@@ -21,7 +21,7 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
             var value = data.Value<string>(JsonKey);
             if (!string.IsNullOrEmpty(value))
             {
-                identity.AddClaim(new Claim(ClaimName, value, ClaimType, issuer));
+                identity.AddClaim(new Claim(ClaimType, value, ValueType, issuer));
             }
         }
     }

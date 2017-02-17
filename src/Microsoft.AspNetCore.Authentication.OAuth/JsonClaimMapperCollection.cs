@@ -14,9 +14,9 @@ namespace Microsoft.AspNetCore.Authentication
 
         public void Clear() => Mappers.Clear();
 
-        public void Remove(string claimName)
+        public void Remove(string claimType)
         {
-            var itemsToRemove = Mappers.Where(map => string.Equals(claimName, map.ClaimName, StringComparison.OrdinalIgnoreCase)).ToList();
+            var itemsToRemove = Mappers.Where(map => string.Equals(claimType, map.ClaimType, StringComparison.OrdinalIgnoreCase)).ToList();
             itemsToRemove.ForEach(map => Mappers.Remove(map));
         }
 

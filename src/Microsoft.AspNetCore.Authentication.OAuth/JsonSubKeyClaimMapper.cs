@@ -8,8 +8,8 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
 {
     public class JsonSubKeyClaimMapper : JsonKeyClaimMapper
     {
-        public JsonSubKeyClaimMapper(string claimName, string claimType, string jsonKey, string subKey)
-            : base(claimName, claimType, jsonKey)
+        public JsonSubKeyClaimMapper(string claimType, string valueType, string jsonKey, string subKey)
+            : base(claimType, valueType, jsonKey)
         {
             SubKey = subKey;
         }
@@ -21,7 +21,7 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
             var value = GetValue(data, JsonKey, SubKey);
             if (!string.IsNullOrEmpty(value))
             {
-                identity.AddClaim(new Claim(ClaimName, value, ClaimType, issuer));
+                identity.AddClaim(new Claim(ClaimType, value, ValueType, issuer));
             }
         }
 

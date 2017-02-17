@@ -9,8 +9,8 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
 {
     public class JsonCustomClaimMapper : JsonClaimMapper
     {
-        public JsonCustomClaimMapper(string claimName, string claimType, Func<JObject, string> resolver)
-            : base(claimName, claimType)
+        public JsonCustomClaimMapper(string claimType, string valueType, Func<JObject, string> resolver)
+            : base(claimType, valueType)
         {
             Resolver = resolver;
         }
@@ -22,7 +22,7 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
             var value = Resolver(data);
             if (!string.IsNullOrEmpty(value))
             {
-                identity.AddClaim(new Claim(ClaimName, value, ClaimType, issuer));
+                identity.AddClaim(new Claim(ClaimType, value, ValueType, issuer));
             }
         }
     }

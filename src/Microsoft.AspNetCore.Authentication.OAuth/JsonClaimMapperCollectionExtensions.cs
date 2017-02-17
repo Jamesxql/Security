@@ -10,34 +10,34 @@ namespace Microsoft.AspNetCore.Authentication
 {
     public static class JsonClaimMapperCollectionExtensions
     {
-        public static void MapJsonKey(this JsonClaimMapperCollection collection, string claimName, string jsonKey)
+        public static void MapJsonKey(this JsonClaimMapperCollection collection, string claimType, string jsonKey)
         {
-            collection.MapJsonKey(claimName, jsonKey, ClaimValueTypes.String);
+            collection.MapJsonKey(claimType, jsonKey, ClaimValueTypes.String);
         }
 
-        public static void MapJsonKey(this JsonClaimMapperCollection collection, string claimName, string jsonKey, string claimType)
+        public static void MapJsonKey(this JsonClaimMapperCollection collection, string claimType, string jsonKey, string valueType)
         {
-            collection.Add(new JsonKeyClaimMapper(claimName, claimType, jsonKey));
+            collection.Add(new JsonKeyClaimMapper(claimType, valueType, jsonKey));
         }
 
-        public static void MapJsonSubKey(this JsonClaimMapperCollection collection, string claimName, string jsonKey, string subKey)
+        public static void MapJsonSubKey(this JsonClaimMapperCollection collection, string claimType, string jsonKey, string subKey)
         {
-            collection.MapJsonSubKey(claimName, jsonKey, subKey, ClaimValueTypes.String);
+            collection.MapJsonSubKey(claimType, jsonKey, subKey, ClaimValueTypes.String);
         }
 
-        public static void MapJsonSubKey(this JsonClaimMapperCollection collection, string claimName, string jsonKey, string subKey, string claimType)
+        public static void MapJsonSubKey(this JsonClaimMapperCollection collection, string claimType, string jsonKey, string subKey, string valueType)
         {
-            collection.Add(new JsonSubKeyClaimMapper(claimName, claimType, jsonKey, subKey));
+            collection.Add(new JsonSubKeyClaimMapper(claimType, valueType, jsonKey, subKey));
         }
 
-        public static void MapCustomJson(this JsonClaimMapperCollection collection, string claimName, Func<JObject, string> resolver)
+        public static void MapCustomJson(this JsonClaimMapperCollection collection, string claimType, Func<JObject, string> resolver)
         {
-            collection.MapCustomJson(claimName, ClaimValueTypes.String, resolver);
+            collection.MapCustomJson(claimType, ClaimValueTypes.String, resolver);
         }
 
-        public static void MapCustomJson(this JsonClaimMapperCollection collection, string claimName, string claimType, Func<JObject, string> resolver)
+        public static void MapCustomJson(this JsonClaimMapperCollection collection, string claimType, string valueType, Func<JObject, string> resolver)
         {
-            collection.Add(new JsonCustomClaimMapper(claimName, claimType, resolver));
+            collection.Add(new JsonCustomClaimMapper(claimType, valueType, resolver));
         }
     }
 }

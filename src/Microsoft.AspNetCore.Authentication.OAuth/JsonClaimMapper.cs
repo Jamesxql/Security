@@ -8,15 +8,15 @@ namespace Microsoft.AspNetCore.Authentication
 {
     public abstract class JsonClaimMapper
     {
-        public JsonClaimMapper(string claimName, string claimType)
+        public JsonClaimMapper(string claimType, string valueType)
         {
-            ClaimName = claimName;
             ClaimType = claimType;
+            ValueType = valueType;
         }
 
-        public string ClaimName { get; }
-
         public string ClaimType { get; }
+
+        public string ValueType { get; }
 
         public abstract void Map(JObject data, ClaimsIdentity identity, string issuer);
     }
