@@ -3,20 +3,30 @@
 
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AspNetCore.Authentication.OpenIdConnect
 {
-    public class UniqueJsonKeyClaimMapper : JsonClaimMapper
+    /// <summary>
+    /// A JsonClaimMapper that selects a top level value from the json user data with the given key name and adds it as a Claim.
+    /// This no-ops if the ClaimsIdentity already contains a Claim with the given ClaimType.
+    /// This no-ops if the key is not found or the value is empty.
+    /// </summary>
+    public class UniqueJsonKeyClaimMapper : JsonKeyClaimMapper
     {
+        /// <summary>
+        /// Creates a new JsonClaimMapper.
+        /// </summary>
+        /// <param name="claimType">The value to use for Claim.Type when creating a Claim.</param>
+        /// <param name="valueType">The value to use for Claim.ValueType when creating a Claim.</param>
+        /// <param name="jsonKey">The top level key to look for in the json user data.</param>
         public UniqueJsonKeyClaimMapper(string claimType, string valueType, string jsonKey)
-            : base(claimType, valueType)
+            : base(claimType, valueType, jsonKey)
         {
-            JsonKey = jsonKey;
         }
 
-        public string JsonKey { get; }
-
+        /// <inheritdoc />
         public override void Map(JObject data, ClaimsIdentity identity, string issuer)
         {
             var value = data.Value<string>(JsonKey);

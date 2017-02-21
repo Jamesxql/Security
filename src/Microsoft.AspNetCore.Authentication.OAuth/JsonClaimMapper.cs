@@ -6,18 +6,37 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AspNetCore.Authentication
 {
+    /// <summary>
+    /// Infrastructure for mapping user data from a json structure to claims on the ClaimsIdentity.
+    /// </summary>
     public abstract class JsonClaimMapper
     {
+        /// <summary>
+        /// Create a new claim map.
+        /// </summary>
+        /// <param name="claimType">The value to use for Claim.Type when creating a Claim.</param>
+        /// <param name="valueType">The value to use for Claim.ValueType when creating a Claim.</param>
         public JsonClaimMapper(string claimType, string valueType)
         {
             ClaimType = claimType;
             ValueType = valueType;
         }
 
+        /// <summary>
+        /// The value to use for Claim.Type when creating a Claim.
+        /// </summary>
         public string ClaimType { get; }
 
+        // The value to use for Claim.ValueType when creating a Claim.
         public string ValueType { get; }
 
-        public abstract void Map(JObject data, ClaimsIdentity identity, string issuer);
+        /// <summary>
+        /// Exhamine the given userData json, determine if the requisite data is present, and optionally add it
+        /// as a new Claim on the ClaimsIdentity.
+        /// </summary>
+        /// <param name="userData">The source data to exhamine.</param>
+        /// <param name="identity">The identity to add Claims to.</param>
+        /// <param name="issuer">The value to use for Claim.Issuer when creating a Claim.</param>
+        public abstract void Map(JObject userData, ClaimsIdentity identity, string issuer);
     }
 }

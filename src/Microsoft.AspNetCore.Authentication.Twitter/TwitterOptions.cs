@@ -48,6 +48,9 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         public bool RetrieveUserDetails { get; set; }
 
+        /// <summary>
+        /// A collection of claim mappers used to select values from the json user data and create Claims.
+        /// </summary>
         public JsonClaimMapperCollection ClaimMaps { get; } = new JsonClaimMapperCollection();
 
         /// <summary>
