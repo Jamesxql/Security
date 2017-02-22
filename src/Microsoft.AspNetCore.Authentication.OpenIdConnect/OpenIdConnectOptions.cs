@@ -59,15 +59,21 @@ namespace Microsoft.AspNetCore.Builder
 
             ClaimActions.DeleteClaim("nonce");
             ClaimActions.DeleteClaim("aud");
+            ClaimActions.DeleteClaim("azp");
+            ClaimActions.DeleteClaim("acr");
+            ClaimActions.DeleteClaim("amr");
             ClaimActions.DeleteClaim("iss");
             ClaimActions.DeleteClaim("iat");
             ClaimActions.DeleteClaim("nbf");
             ClaimActions.DeleteClaim("exp");
+            ClaimActions.DeleteClaim("at_hash");
             ClaimActions.DeleteClaim("c_hash");
+            ClaimActions.DeleteClaim("auth_time");
             ClaimActions.DeleteClaim("ipaddr");
             ClaimActions.DeleteClaim("platf");
             ClaimActions.DeleteClaim("ver");
 
+            // http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
             ClaimActions.MapUniqueJsonKey("sub", "sub");
             ClaimActions.MapUniqueJsonKey("name", "name");
             ClaimActions.MapUniqueJsonKey("given_name", "given_name");
