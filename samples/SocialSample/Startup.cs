@@ -127,13 +127,13 @@ namespace SocialSample
                     }
                 }
             };
-            googleOptions.ClaimMaps.MapJsonSubKey("urn:google:image", "image", "url");
-            googleOptions.ClaimMaps.Remove(ClaimTypes.GivenName);
+            googleOptions.ClaimActions.MapJsonSubKey("urn:google:image", "image", "url");
+            googleOptions.ClaimActions.Remove(ClaimTypes.GivenName);
             app.UseGoogleAuthentication(googleOptions);
 
             // You must first create an app with Twitter and add its key and Secret to your user-secrets.
             // https://apps.twitter.com/
-            app.UseTwitterAuthentication(new TwitterOptions
+            var twitterOptions = new TwitterOptions
             {
                 ConsumerKey = Configuration["twitter:consumerkey"],
                 ConsumerSecret = Configuration["twitter:consumersecret"],
@@ -143,12 +143,6 @@ namespace SocialSample
                 SaveTokens = true,
                 Events = new TwitterEvents()
                 {
-                    OnCreatingTicket = ctx =>
-                    {
-                        var profilePic = ctx.User.Value<string>("profile_image_url");
-                        ctx.Principal.Identities.First().AddClaim(new Claim("urn:twitter:profilepicture", profilePic, ClaimTypes.Uri, ctx.Options.ClaimsIssuer));
-                        return Task.FromResult(0);
-                    },
                     OnRemoteFailure = ctx =>
                     {
                         ctx.Response.Redirect("/error?FailureMessage=" + UrlEncoder.Default.Encode(ctx.Failure.Message));
@@ -156,7 +150,9 @@ namespace SocialSample
                         return Task.FromResult(0);
                     }
                 }
-            });
+            };
+            twitterOptions.ClaimActions.MapJsonKey("urn:twitter:profilepicture", "profile_image_url", ClaimTypes.Uri);
+            app.UseTwitterAuthentication(twitterOptions);
 
             /* Azure AD app model v2 has restrictions that prevent the use of plain HTTP for redirect URLs.
                Therefore, to authenticate through microsoft accounts, tryout the sample using the following URL:
@@ -234,11 +230,11 @@ namespace SocialSample
                     }
                 }
             };
-            githubOptions.ClaimMaps.MapJsonKey(ClaimTypes.NameIdentifier, "id");
-            githubOptions.ClaimMaps.MapJsonKey(ClaimTypes.Name, "login");
-            githubOptions.ClaimMaps.MapJsonKey("urn:github:name", "name");
-            githubOptions.ClaimMaps.MapJsonKey(ClaimTypes.Email, "email", ClaimValueTypes.Email);
-            githubOptions.ClaimMaps.MapJsonKey("urn:github:url", "url");
+            githubOptions.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+            githubOptions.ClaimActions.MapJsonKey(ClaimTypes.Name, "login");
+            githubOptions.ClaimActions.MapJsonKey("urn:github:name", "name");
+            githubOptions.ClaimActions.MapJsonKey(ClaimTypes.Email, "email", ClaimValueTypes.Email);
+            githubOptions.ClaimActions.MapJsonKey("urn:github:url", "url");
             app.UseOAuthAuthentication(githubOptions);
 
             // Choose an authentication type

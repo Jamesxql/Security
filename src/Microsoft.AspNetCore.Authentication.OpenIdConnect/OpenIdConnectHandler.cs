@@ -661,6 +661,14 @@ namespace Microsoft.AspNetCore.Authentication.OpenIdConnect
                 {
                     return await GetUserInformationAsync(tokenEndpointResponse ?? authorizationResponse, jwt, ticket);
                 }
+                else
+                {
+                    var identity = (ClaimsIdentity)ticket.Principal.Identity;
+                    foreach (var action in Options.ClaimActions)
+                    {
+                        action.Run(null, identity, Options.ClaimsIssuer);
+                    }
+                }
 
                 return AuthenticateResult.Success(ticket);
             }
@@ -809,9 +817,9 @@ namespace Microsoft.AspNetCore.Authentication.OpenIdConnect
 
             var identity = (ClaimsIdentity)ticket.Principal.Identity;
 
-            foreach (var mapper in Options.ClaimMaps)
+            foreach (var action in Options.ClaimActions)
             {
-                mapper.Map(user, identity, Options.ClaimsIssuer);
+                action.Run(user, identity, Options.ClaimsIssuer);
             }
 
             return AuthenticateResult.Success(ticket);

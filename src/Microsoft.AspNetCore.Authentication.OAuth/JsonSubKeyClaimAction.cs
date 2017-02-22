@@ -7,20 +7,20 @@ using System.Security.Claims;
 namespace Microsoft.AspNetCore.Authentication.OAuth
 {
     /// <summary>
-    /// A JsonClaimMapper that selects a second level value from the json user data with the given top level key
+    /// A ClaimAction that selects a second level value from the json user data with the given top level key
     /// name and second level sub key name and add it as a Claim.
     /// This no-ops if the keys are not found or the value is empty.
     /// </summary>
-    public class JsonSubKeyClaimMapper : JsonKeyClaimMapper
+    public class JsonSubKeyClaimAction : JsonKeyClaimAction
     {
         /// <summary>
-        /// Creates a new JsonSubKeyClaimMapper.
+        /// Creates a new JsonSubKeyClaimAction.
         /// </summary>
         /// <param name="claimType">The value to use for Claim.Type when creating a Claim.</param>
         /// <param name="valueType">The value to use for Claim.ValueType when creating a Claim.</param>
         /// <param name="jsonKey">The top level key to look for in the json user data.</param>
         /// <param name="subKey">The second level key to look for in the json user data.</param>
-        public JsonSubKeyClaimMapper(string claimType, string valueType, string jsonKey, string subKey)
+        public JsonSubKeyClaimAction(string claimType, string valueType, string jsonKey, string subKey)
             : base(claimType, valueType, jsonKey)
         {
             SubKey = subKey;
@@ -32,7 +32,7 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
         public string SubKey { get; }
 
         /// <inheritdoc />
-        public override void Map(JObject userData, ClaimsIdentity identity, string issuer)
+        public override void Run(JObject userData, ClaimsIdentity identity, string issuer)
         {
             var value = GetValue(userData, JsonKey, SubKey);
             if (!string.IsNullOrEmpty(value))
@@ -44,7 +44,7 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
         // Get the given subProperty from a property.
         private static string GetValue(JObject userData, string propertyName, string subProperty)
         {
-            if (userData.TryGetValue(propertyName, out var value))
+            if (userData != null && userData.TryGetValue(propertyName, out var value))
             {
                 var subObject = JObject.Parse(value.ToString());
                 if (subObject != null && subObject.TryGetValue(subProperty, out value))

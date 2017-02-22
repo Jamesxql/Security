@@ -7,18 +7,18 @@ using Newtonsoft.Json.Linq;
 namespace Microsoft.AspNetCore.Authentication.OAuth
 {
     /// <summary>
-    /// A JsonClaimMapper that selects a top level value from the json user data with the given key name and adds it as a Claim.
+    /// A ClaimAction that selects a top level value from the json user data with the given key name and adds it as a Claim.
     /// This no-ops if the key is not found or the value is empty.
     /// </summary>
-    public class JsonKeyClaimMapper : JsonClaimMapper
+    public class JsonKeyClaimAction : ClaimAction
     {
         /// <summary>
-        /// Creates a new JsonKeyClaimMapper.
+        /// Creates a new JsonKeyClaimAction.
         /// </summary>
         /// <param name="claimType">The value to use for Claim.Type when creating a Claim.</param>
         /// <param name="valueType">The value to use for Claim.ValueType when creating a Claim.</param>
         /// <param name="jsonKey">The top level key to look for in the json user data.</param>
-        public JsonKeyClaimMapper(string claimType, string valueType, string jsonKey)
+        public JsonKeyClaimAction(string claimType, string valueType, string jsonKey)
             : base(claimType, valueType)
         {
             JsonKey = jsonKey;
@@ -30,9 +30,9 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
         public string JsonKey { get; }
 
         /// <inheritdoc />
-        public override void Map(JObject userData, ClaimsIdentity identity, string issuer)
+        public override void Run(JObject userData, ClaimsIdentity identity, string issuer)
         {
-            var value = userData.Value<string>(JsonKey);
+            var value = userData?.Value<string>(JsonKey);
             if (!string.IsNullOrEmpty(value))
             {
                 identity.AddClaim(new Claim(ClaimType, value, ValueType, issuer));

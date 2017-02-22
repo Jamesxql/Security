@@ -33,20 +33,20 @@ namespace Microsoft.AspNetCore.Builder
             Fields.Add("first_name");
             Fields.Add("last_name");
 
-            ClaimMaps.MapJsonKey(ClaimTypes.NameIdentifier, "id");
-            ClaimMaps.MapJsonSubKey("urn:facebook:age_range_min", "age_range", "min");
-            ClaimMaps.MapJsonSubKey("urn:facebook:age_range_max", "age_range", "max");
-            ClaimMaps.MapJsonKey(ClaimTypes.DateOfBirth, "birthday");
-            ClaimMaps.MapJsonKey(ClaimTypes.Email, "email");
-            ClaimMaps.MapJsonKey(ClaimTypes.Name, "name");
-            ClaimMaps.MapJsonKey(ClaimTypes.GivenName, "first_name");
-            ClaimMaps.MapJsonKey("urn:facebook:middle_name", "middle_name");
-            ClaimMaps.MapJsonKey(ClaimTypes.Surname, "last_name");
-            ClaimMaps.MapJsonKey(ClaimTypes.Gender, "gender");
-            ClaimMaps.MapJsonKey("urn:facebook:link", "link");
-            ClaimMaps.MapJsonSubKey("urn:facebook:location", "location", "name");
-            ClaimMaps.MapJsonKey(ClaimTypes.Locality, "locale");
-            ClaimMaps.MapJsonKey("urn:facebook:timezone", "timezone");
+            ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+            ClaimActions.MapJsonSubKey("urn:facebook:age_range_min", "age_range", "min");
+            ClaimActions.MapJsonSubKey("urn:facebook:age_range_max", "age_range", "max");
+            ClaimActions.MapJsonKey(ClaimTypes.DateOfBirth, "birthday");
+            ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+            ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+            ClaimActions.MapJsonKey(ClaimTypes.GivenName, "first_name");
+            ClaimActions.MapJsonKey("urn:facebook:middle_name", "middle_name");
+            ClaimActions.MapJsonKey(ClaimTypes.Surname, "last_name");
+            ClaimActions.MapJsonKey(ClaimTypes.Gender, "gender");
+            ClaimActions.MapJsonKey("urn:facebook:link", "link");
+            ClaimActions.MapJsonSubKey("urn:facebook:location", "location", "name");
+            ClaimActions.MapJsonKey(ClaimTypes.Locality, "locale");
+            ClaimActions.MapJsonKey("urn:facebook:timezone", "timezone");
         }
 
         // Facebook uses a non-standard term for this field.

@@ -25,7 +25,7 @@ namespace Microsoft.AspNetCore.Builder
             BackchannelTimeout = TimeSpan.FromSeconds(60);
             Events = new TwitterEvents();
 
-            ClaimMaps.MapJsonKey(ClaimTypes.Email, "email", ClaimValueTypes.Email);
+            ClaimActions.MapJsonKey(ClaimTypes.Email, "email", ClaimValueTypes.Email);
         }
 
         /// <summary>
@@ -49,9 +49,9 @@ namespace Microsoft.AspNetCore.Builder
         public bool RetrieveUserDetails { get; set; }
 
         /// <summary>
-        /// A collection of claim mappers used to select values from the json user data and create Claims.
+        /// A collection of claim actions used to select values from the json user data and create Claims.
         /// </summary>
-        public JsonClaimMapperCollection ClaimMaps { get; } = new JsonClaimMapperCollection();
+        public ClaimActionCollection ClaimActions { get; } = new ClaimActionCollection();
 
         /// <summary>
         /// Gets or sets the type used to secure data handled by the middleware.

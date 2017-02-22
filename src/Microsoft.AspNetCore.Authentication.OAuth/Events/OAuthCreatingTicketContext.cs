@@ -157,9 +157,9 @@ namespace Microsoft.AspNetCore.Authentication.OAuth
                 throw new ArgumentNullException(nameof(userData));
             }
 
-            foreach (var mapper in Options.ClaimMaps)
+            foreach (var action in Options.ClaimActions)
             {
-                mapper.Map(userData, Identity, Options.ClaimsIssuer);
+                action.Run(userData, Identity, Options.ClaimsIssuer);
             }
         }
     }

@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AspNetCore.Authentication
 {
-    public static class JsonClaimMapperCollectionExtensions
+    public static class ClaimActionCollectionMapExtensions
     {
         /// <summary>
         /// Select a top level value from the json user data with the given key name and add it as a Claim.
@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Authentication
         /// <param name="collection"></param>
         /// <param name="claimType">The value to use for Claim.Type when creating a Claim.</param>
         /// <param name="jsonKey">The top level key to look for in the json user data.</param>
-        public static void MapJsonKey(this JsonClaimMapperCollection collection, string claimType, string jsonKey)
+        public static void MapJsonKey(this ClaimActionCollection collection, string claimType, string jsonKey)
         {
             collection.MapJsonKey(claimType, jsonKey, ClaimValueTypes.String);
         }
@@ -30,9 +30,9 @@ namespace Microsoft.AspNetCore.Authentication
         /// <param name="claimType">The value to use for Claim.Type when creating a Claim.</param>
         /// <param name="jsonKey">The top level key to look for in the json user data.</param>
         /// <param name="valueType">The value to use for Claim.ValueType when creating a Claim.</param>
-        public static void MapJsonKey(this JsonClaimMapperCollection collection, string claimType, string jsonKey, string valueType)
+        public static void MapJsonKey(this ClaimActionCollection collection, string claimType, string jsonKey, string valueType)
         {
-            collection.Add(new JsonKeyClaimMapper(claimType, valueType, jsonKey));
+            collection.Add(new JsonKeyClaimAction(claimType, valueType, jsonKey));
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Microsoft.AspNetCore.Authentication
         /// <param name="claimType">The value to use for Claim.Type when creating a Claim.</param>
         /// <param name="jsonKey">The top level key to look for in the json user data.</param>
         /// <param name="subKey">The second level key to look for in the json user data.</param>
-        public static void MapJsonSubKey(this JsonClaimMapperCollection collection, string claimType, string jsonKey, string subKey)
+        public static void MapJsonSubKey(this ClaimActionCollection collection, string claimType, string jsonKey, string subKey)
         {
             collection.MapJsonSubKey(claimType, jsonKey, subKey, ClaimValueTypes.String);
         }
@@ -57,9 +57,9 @@ namespace Microsoft.AspNetCore.Authentication
         /// <param name="jsonKey">The top level key to look for in the json user data.</param>
         /// <param name="subKey">The second level key to look for in the json user data.</param>
         /// <param name="valueType">The value to use for Claim.ValueType when creating a Claim.</param>
-        public static void MapJsonSubKey(this JsonClaimMapperCollection collection, string claimType, string jsonKey, string subKey, string valueType)
+        public static void MapJsonSubKey(this ClaimActionCollection collection, string claimType, string jsonKey, string subKey, string valueType)
         {
-            collection.Add(new JsonSubKeyClaimMapper(claimType, valueType, jsonKey, subKey));
+            collection.Add(new JsonSubKeyClaimAction(claimType, valueType, jsonKey, subKey));
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Microsoft.AspNetCore.Authentication
         /// <param name="collection"></param>
         /// <param name="claimType">The value to use for Claim.Type when creating a Claim.</param>
         /// <param name="resolver">The Func that will be called to select value from the given json user data.</param>
-        public static void MapCustomJson(this JsonClaimMapperCollection collection, string claimType, Func<JObject, string> resolver)
+        public static void MapCustomJson(this ClaimActionCollection collection, string claimType, Func<JObject, string> resolver)
         {
             collection.MapCustomJson(claimType, ClaimValueTypes.String, resolver);
         }
@@ -82,9 +82,9 @@ namespace Microsoft.AspNetCore.Authentication
         /// <param name="claimType">The value to use for Claim.Type when creating a Claim.</param>
         /// <param name="valueType">The value to use for Claim.ValueType when creating a Claim.</param>
         /// <param name="resolver">The Func that will be called to select value from the given json user data.</param>
-        public static void MapCustomJson(this JsonClaimMapperCollection collection, string claimType, string valueType, Func<JObject, string> resolver)
+        public static void MapCustomJson(this ClaimActionCollection collection, string claimType, string valueType, Func<JObject, string> resolver)
         {
-            collection.Add(new JsonCustomClaimMapper(claimType, valueType, resolver));
+            collection.Add(new CustomJsonClaimAction(claimType, valueType, resolver));
         }
 
         /// <summary>
@@ -92,9 +92,9 @@ namespace Microsoft.AspNetCore.Authentication
         /// </summary>
         /// <param name="collection"></param>
         /// <param name="claimType"></param>
-        public static void DeleteClaim(this JsonClaimMapperCollection collection, string claimType)
+        public static void DeleteClaim(this ClaimActionCollection collection, string claimType)
         {
-            collection.Add(new DeleteClaimMapper(claimType));
+            collection.Add(new DeleteClaimAction(claimType));
         }
     }
 }

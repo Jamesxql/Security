@@ -57,23 +57,23 @@ namespace Microsoft.AspNetCore.Builder
             Scope.Add("openid");
             Scope.Add("profile");
 
-            ClaimMaps.DeleteClaim("nonce");
-            ClaimMaps.DeleteClaim("aud");
-            ClaimMaps.DeleteClaim("iss");
-            ClaimMaps.DeleteClaim("iat");
-            ClaimMaps.DeleteClaim("nbf");
-            ClaimMaps.DeleteClaim("exp");
-            ClaimMaps.DeleteClaim("c_hash");
-            ClaimMaps.DeleteClaim("ipaddr");
-            ClaimMaps.DeleteClaim("platf");
-            ClaimMaps.DeleteClaim("ver");
+            ClaimActions.DeleteClaim("nonce");
+            ClaimActions.DeleteClaim("aud");
+            ClaimActions.DeleteClaim("iss");
+            ClaimActions.DeleteClaim("iat");
+            ClaimActions.DeleteClaim("nbf");
+            ClaimActions.DeleteClaim("exp");
+            ClaimActions.DeleteClaim("c_hash");
+            ClaimActions.DeleteClaim("ipaddr");
+            ClaimActions.DeleteClaim("platf");
+            ClaimActions.DeleteClaim("ver");
 
-            ClaimMaps.MapUniqueJsonKey(ClaimTypes.NameIdentifier, "sub");
-            ClaimMaps.MapUniqueJsonKey(ClaimTypes.Name, "name");
-            ClaimMaps.MapUniqueJsonKey(ClaimTypes.GivenName, "given_name");
-            ClaimMaps.MapUniqueJsonKey(ClaimTypes.Surname, "family_name");
-            ClaimMaps.MapUniqueJsonKey(ClaimTypes.Uri, "profile");
-            ClaimMaps.MapUniqueJsonKey(ClaimTypes.Email, "email");
+            ClaimActions.MapUniqueJsonKey("sub", "sub");
+            ClaimActions.MapUniqueJsonKey("name", "name");
+            ClaimActions.MapUniqueJsonKey("given_name", "given_name");
+            ClaimActions.MapUniqueJsonKey("family_name", "family_name");
+            ClaimActions.MapUniqueJsonKey("profile", "profile");
+            ClaimActions.MapUniqueJsonKey("email", "email");
         }
 
         /// <summary>
@@ -110,9 +110,9 @@ namespace Microsoft.AspNetCore.Builder
         public bool GetClaimsFromUserInfoEndpoint { get; set; }
 
         /// <summary>
-        /// A collection of claim mappers used to select values from the json user data and create Claims.
+        /// A collection of claim actions used to select values from the json user data and create Claims.
         /// </summary>
-        public JsonClaimMapperCollection ClaimMaps { get; } = new JsonClaimMapperCollection();
+        public ClaimActionCollection ClaimActions { get; } = new ClaimActionCollection();
 
         /// <summary>
         /// Gets or sets if HTTPS is required for the metadata address or authority.

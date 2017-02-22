@@ -8,21 +8,21 @@ using Newtonsoft.Json.Linq;
 namespace Microsoft.AspNetCore.Authentication
 {
     /// <summary>
-    /// A JsonClaimMapper that deletes all claims from the given ClaimsIdentity with the given ClaimType.
+    /// A ClaimAction that deletes all claims from the given ClaimsIdentity with the given ClaimType.
     /// </summary>
-    public class DeleteClaimMapper : JsonClaimMapper
+    public class DeleteClaimAction : ClaimAction
     {
         /// <summary>
-        /// Creates a new DeleteClaimMapper.
+        /// Creates a new DeleteClaimAction.
         /// </summary>
         /// <param name="claimType">The ClaimType of Claims to delete.</param>
-        public DeleteClaimMapper(string claimType)
+        public DeleteClaimAction(string claimType)
             : base(claimType, ClaimValueTypes.String)
         {
         }
 
         /// <inheritdoc />
-        public override void Map(JObject userData, ClaimsIdentity identity, string issuer)
+        public override void Run(JObject userData, ClaimsIdentity identity, string issuer)
         {
             foreach (var claim in identity.FindAll(ClaimType).ToList())
             {

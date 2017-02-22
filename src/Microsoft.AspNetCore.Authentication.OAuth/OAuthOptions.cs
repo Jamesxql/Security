@@ -55,9 +55,9 @@ namespace Microsoft.AspNetCore.Builder
         }
 
         /// <summary>
-        /// A collection of claim mappers used to select values from the json user data and create Claims.
+        /// A collection of claim actions used to select values from the json user data and create Claims.
         /// </summary>
-        public JsonClaimMapperCollection ClaimMaps { get; } = new JsonClaimMapperCollection();
+        public ClaimActionCollection ClaimActions { get; } = new ClaimActionCollection();
 
         /// <summary>
         /// Gets the list of permissions to request.
