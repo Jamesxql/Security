@@ -226,7 +226,7 @@ namespace SocialSample
 
                         var user = JObject.Parse(await response.Content.ReadAsStringAsync());
 
-                        context.MapClaims(user);
+                        context.RunClaimActions(user);
                     }
                 }
             };
